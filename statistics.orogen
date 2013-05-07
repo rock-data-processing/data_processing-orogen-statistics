@@ -1,0 +1,33 @@
+name "statistics"
+
+import_types_from "statisticsTypes.hpp"
+import_types_from "base"
+
+using_library "numeric"
+
+using_task_library "type_to_vector"
+
+
+task_context "CumulativeTask" do
+
+    doc "Provides cumulative statistics of data feed into this component. "+
+        "Automatically creates Stats ports for each vector."
+
+    subclasses "type_to_vector::BaseTask"
+
+    dynamic_output_port(/^stats_\d+$/, '/statistics/Stats')
+
+    periodic 0.1
+end
+
+
+task_context "WindowedTask" do
+
+    doc "Provides statistics of data for a given time range."
+
+    subclasses "type_to_vector::BufferedDataTask"
+
+    dynamic_output_port(/^windowed_stats_\d+$/, '/statistics/Stats')
+
+    periodic 0.1
+end

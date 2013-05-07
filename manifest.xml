@@ -1,0 +1,19 @@
+<package>
+  <description brief="Provides staticstics for any kind of data.">
+  Computes average, min, max, standard deviation and covariance for all data.
+  </description>
+  <author>Felix Rehrmann/felix.rehrmann@dfki.de</author>
+  <license></license>
+  <url>http://</url>
+  <logo>http://</logo>
+  <!--
+   To add any dependencies use the depend tag
+  <depend package="dummy-dependency-0" />
+	...
+  <depend package="dummy-dependency-n-1" />
+  <depend package="dummy-dependency-n" />
+  -->
+  <depend package="orogen/type_to_vector" />
+  <depend package="base/numeric" />
+  <depend package="base/types" />
+</package>
