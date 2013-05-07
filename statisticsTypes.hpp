@@ -2,6 +2,7 @@
 #define statistics_TYPES_HPP
 
 #include <base/eigen.h>
+#include <base/time.h>
 
 namespace statistics {
 
@@ -10,6 +11,7 @@ namespace statistics {
  * Data is a number of timeseries. */
 struct Stats {
 
+    base::Time time; //!< The time of the latest samples.
     unsigned int n;
     base::VectorXd mean;
     base::VectorXd stddev;
