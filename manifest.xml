@@ -13,7 +13,7 @@
   <depend package="dummy-dependency-n-1" />
   <depend package="dummy-dependency-n" />
   -->
-  <depend package="orogen/type_to_vector" />
+  <depend package="data_processing/orogen/type_to_vector" />
   <depend package="base/numeric" />
   <depend package="base/types" />
 </package>
