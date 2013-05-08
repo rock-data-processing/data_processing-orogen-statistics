@@ -1,5 +1,6 @@
 /* Generated from orogen/lib/orogen/templates/tasks/Task.cpp */
 
+#include <boost/lexical_cast.hpp>
 #include "CumulativeTask.hpp"
 
 using namespace statistics;
@@ -18,13 +19,30 @@ CumulativeTask::~CumulativeTask()
 {
 }
 
+void CumulativeTask::process() {
+        
+    base::VectorXd vec;
+    statistics::Stats stats_data;
+        
+    for ( int idx=0; idx < getDataVectorCount(); idx++ ) {
 
+        VectorStats& stats = mStatistics.at(idx);
 
-/// The following lines are template definitions for the various state machine
-// hooks defined by Orocos::RTT. See CumulativeTask.hpp for more detailed
-// documentation about them.
+        getVector(idx,vec);
+        stats.update(vec);
+        getTimeVector(idx,vec);
 
+        stats_data.time = base::Time::fromSeconds(vec.mean());
+        stats_data.n = stats.n();
+        stats_data.mean = stats.mean();
+        stats_data.max = stats.max();
+        stats_data.min = stats.min();
+        stats_data.stddev = stats.stdev();
+        stats_data.cov = stats.var();
 
+        mStatsPorts.at(idx)->write(stats_data);        
+    }
+}
 
 
 bool CumulativeTask::configureHook()
@@ -33,69 +51,20 @@ bool CumulativeTask::configureHook()
     if (! type_to_vector::BaseTask::configureHook())
         return false;
     
+    // create all the output ports
+    for ( int idx=0; idx < getDataVectorCount(); idx++) {
+        
+        StatsPortPointer outp = static_cast<StatsPortPointer>(
+            createOutputPort("stats_"+boost::lexical_cast<std::string>(idx),
+                "/statistics/Stats") );
 
-    
+        mStatsPorts.push_back(outp);
+    }
 
-    
+    mStatistics.resize(getDataVectorCount());
+
     return true;
-    
 }
-
-
-
-bool CumulativeTask::startHook()
-{
-    
-    if (! type_to_vector::BaseTask::startHook())
-        return false;
-    
-
-    
-
-    
-    return true;
-    
-}
-
-
-
-void CumulativeTask::updateHook()
-{
-    
-    type_to_vector::BaseTask::updateHook();
-    
-
-    
-
-    
-}
-
-
-
-void CumulativeTask::errorHook()
-{
-    
-    type_to_vector::BaseTask::errorHook();
-    
-
-    
-
-    
-}
-
-
-
-void CumulativeTask::stopHook()
-{
-    
-    type_to_vector::BaseTask::stopHook();
-    
-
-    
-
-    
-}
-
 
 
 void CumulativeTask::cleanupHook()
@@ -103,9 +72,12 @@ void CumulativeTask::cleanupHook()
     
     type_to_vector::BaseTask::cleanupHook();
     
+    StatsPorts::iterator it = mStatsPorts.begin();
 
+    for ( ; it != mStatsPorts.end(); it++ )
+        ports()->removePort((*it)->getName());
     
-
-    
+    mStatsPorts.clear();
+    mStatistics.clear();
 }
 
