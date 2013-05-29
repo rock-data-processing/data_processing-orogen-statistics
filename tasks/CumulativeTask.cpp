@@ -51,6 +51,8 @@ bool CumulativeTask::configureHook()
     if (! type_to_vector::BaseTask::configureHook())
         return false;
     
+    mStatistics.resize(getDataVectorCount());
+    
     // create all the output ports
     for ( int idx=0; idx < getDataVectorCount(); idx++) {
         
@@ -59,9 +61,9 @@ bool CumulativeTask::configureHook()
                 "/statistics/Stats") );
 
         mStatsPorts.push_back(outp);
-    }
 
-    mStatistics.resize(getDataVectorCount());
+        mStatistics.at(idx).setDDof(_ddof.get());
+    }
 
     return true;
 }

@@ -17,6 +17,9 @@ task_context "CumulativeTask" do
 
     dynamic_output_port(/^stats_\d+$/, '/statistics/Stats')
 
+    property("ddof", "/double", 0.0).
+        doc "delta degrees of freedom to adjust the variance estimate"
+
     periodic 0.1
 end
 
@@ -26,6 +29,13 @@ task_context "WindowedTask" do
     doc "Provides statistics of data for a given time range."
 
     subclasses "type_to_vector::BufferedDataTask"
+    
+    property("ddof", "/double", 0.0).
+        doc "delta degrees of freedom to adjust the variance estimate"
+    
+    property("delay", "int").doc("How much samples to start back in time. "+
+                                 "Must be samller than buffer_size. "+
+                                 "Averaging over buffer_size - delay sampels." ) 
 
     dynamic_output_port(/^windowed_stats_\d+$/, '/statistics/Stats')
 
