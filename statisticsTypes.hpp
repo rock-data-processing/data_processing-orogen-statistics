@@ -13,11 +13,11 @@ struct Stats {
 
     base::Time time; //!< The time of the latest samples.
     unsigned int n;
+    base::VectorXd min;
+    base::VectorXd max;
     base::VectorXd mean;
     base::VectorXd stddev;
-    base::VectorXd max;
-    base::VectorXd min;
-    base::MatrixXd cov;
+    base::MatrixXd var; //!< Variance matrix.
 };
 
 }

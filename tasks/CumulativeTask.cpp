@@ -38,7 +38,7 @@ void CumulativeTask::process() {
         stats_data.max = stats.max();
         stats_data.min = stats.min();
         stats_data.stddev = stats.stdev();
-        stats_data.cov = stats.var();
+        stats_data.var = stats.var();
 
         mStatsPorts.at(idx)->write(stats_data);        
     }
