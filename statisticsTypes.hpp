@@ -1,8 +1,8 @@
 #ifndef statistics_TYPES_HPP
 #define statistics_TYPES_HPP
 
-#include <base/eigen.h>
-#include <base/time.h>
+#include <base/Eigen.hpp>
+#include <base/Time.hpp>
 
 namespace statistics {
 

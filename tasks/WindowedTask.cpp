@@ -29,7 +29,7 @@ void WindowedTask::process() {
         base::MatrixXd data;
         getDataMatrix(idx, _delay.get(), -1, data);
 
-        base::SeriesStats data_stats(data,_ddof.get());
+        numeric::SeriesStats data_stats(data,_ddof.get());
 
         stats_data.mean = data_stats.mean();
         stats_data.max = data_stats.max();

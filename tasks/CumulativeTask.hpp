@@ -21,7 +21,7 @@ namespace statistics {
 
         StatsPorts mStatsPorts;
 
-        typedef base::Stats<base::VectorXd> VectorStats;
+        typedef numeric::Stats<base::VectorXd> VectorStats;
         typedef std::vector<VectorStats> StatsVector;
 
         StatsVector mStatistics;
